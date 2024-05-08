@@ -10,11 +10,11 @@ public class Password {
         this.securePassword = securePass;
     }
     public static Password createFromPlainText(String securePassword) {
-        ensureIsStringPassword(securePassword);
+        ensureIsStrongPassword(securePassword);
         return new Password(securePassword);
     }
 
-    private static void ensureIsStringPassword(String securePassword) {
+    private static void ensureIsStrongPassword(String securePassword) {
         List<String> accumulatedErrors = new ArrayList<>();
         if(!hasMoreThanSixChars(securePassword)) {
             accumulatedErrors.add("is too short");

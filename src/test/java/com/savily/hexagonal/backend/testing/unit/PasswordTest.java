@@ -66,7 +66,7 @@ public class PasswordTest {
         assertEquals(expectedExemptionMessage, actualExemptionMessage);
     }
     @Test
-    @DisplayName("fails for several erros")
+    @DisplayName("fails for several errors")
     public void failsForSeveralErrors() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
             Password.createFromPlainText("abc1");
