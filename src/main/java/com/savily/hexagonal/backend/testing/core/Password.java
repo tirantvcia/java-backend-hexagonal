@@ -7,10 +7,9 @@ import java.util.regex.Pattern;
 public class Password {
     private String securePassword;
     private Password(String securePass) {
-
         this.securePassword = securePass;
     }
-    public static Password createFrromPlainText(String securePassword) {
+    public static Password createFromPlainText(String securePassword) {
         ensureIsStringPassword(securePassword);
         return new Password(securePassword);
     }

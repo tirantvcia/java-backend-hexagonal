@@ -13,13 +13,13 @@ public class PasswordTest {
     @Test
     @DisplayName("creates a password when the given value meets the requirements for a strong password")
     public void createsPasswordSuccessfully() {
-        Assertions.assertInstanceOf(Password.class, Password.createFrromPlainText("SecurePass123_"));
+        Assertions.assertInstanceOf(Password.class, Password.createFromPlainText("SecurePass123_"));
     }
     @Test
     @DisplayName("fails when the password is too short")
     public void failsWhenTooShort() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("eP1_");
+            Password.createFromPlainText("eP1_");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password is too short";
@@ -29,7 +29,7 @@ public class PasswordTest {
     @DisplayName("fails when the number is missing")
     public void failsWhenNumberIsMissing() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("SecurePass_");
+            Password.createFromPlainText("SecurePass_");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password must contain a number";
@@ -39,7 +39,7 @@ public class PasswordTest {
     @DisplayName("fails when the lower case is missing")
     public void failsWhenLowerCaseIsMissing() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("S12345P_");
+            Password.createFromPlainText("S12345P_");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password must contain a lowercase letter";
@@ -49,7 +49,7 @@ public class PasswordTest {
     @DisplayName("fails when the upper case is missing")
     public void failsWhenUpperCaseIsMissing() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("s12345p_");
+            Password.createFromPlainText("s12345p_");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password must contain an uppercase letter";
@@ -59,7 +59,7 @@ public class PasswordTest {
     @DisplayName("fails when the underscore is missing")
     public void failsWhenUnderscoreIsMissing() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("s12345P");
+            Password.createFromPlainText("s12345P");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password must contain an underscore";
@@ -69,7 +69,7 @@ public class PasswordTest {
     @DisplayName("fails for several erros")
     public void failsForSeveralErrors() {
         Exception exception = assertThrows(ValidationError.class, ()-> {
-            Password.createFrromPlainText("abc1");
+            Password.createFromPlainText("abc1");
         }) ;
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password is too short, must contain an uppercase letter, must contain an underscore";
