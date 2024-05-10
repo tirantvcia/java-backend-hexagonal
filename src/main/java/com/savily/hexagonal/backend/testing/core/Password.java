@@ -1,6 +1,6 @@
 package com.savily.hexagonal.backend.testing.core;
 
-import com.savily.hexagonal.backend.testing.core.common.HashProcessor;
+import com.savily.hexagonal.backend.testing.core.common.HashGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Password {
     }
 
     private static String hashPlainText(String securePassword) {
-        return HashProcessor.hash(securePassword);
+        return HashGenerator.hash(securePassword);
     }
 
     private static void ensureIsStrongPassword(String securePassword) {
