@@ -1,5 +1,7 @@
 package com.savily.hexagonal.backend.testing.core;
 
+import com.savily.hexagonal.backend.testing.core.common.HashProcessor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -11,7 +13,11 @@ public class Password {
     }
     public static Password createFromPlainText(String securePassword) {
         ensureIsStrongPassword(securePassword);
-        return new Password(securePassword);
+        return new Password(hashPlainText(securePassword));
+    }
+
+    private static String hashPlainText(String securePassword) {
+        return HashProcessor.hash(securePassword);
     }
 
     private static void ensureIsStrongPassword(String securePassword) {
@@ -58,5 +64,10 @@ public class Password {
 
     private static boolean hasMoreThanSixChars(String securePassword) {
         return securePassword.length() > 6;
+    }
+
+    @Override
+    public String toString() {
+        return securePassword;
     }
 }

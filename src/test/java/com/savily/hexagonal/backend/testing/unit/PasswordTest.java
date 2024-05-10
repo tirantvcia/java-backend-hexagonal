@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PasswordTest {
     @Test
@@ -74,5 +75,14 @@ public class PasswordTest {
         String actualExemptionMessage = exception.getMessage();
         String expectedExemptionMessage = "Password is too short, must contain an uppercase letter, must contain an underscore";
         assertEquals(expectedExemptionMessage, actualExemptionMessage);
+    }
+    @Test
+    @DisplayName(("ensures password is hashed"))
+    public void ensuresHashingPassword() {
+        Password password = Password.createFromPlainText("SecurePass123_");
+        String hashedValue = password.toString();
+        assertNotEquals("SecurePass123_", hashedValue);
+        assertEquals(64, hashedValue.length());
+        assertTrue(Pattern.matches("^[a-fA-F0-9]{64}$", hashedValue));
     }
 }
