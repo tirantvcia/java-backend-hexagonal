@@ -4,6 +4,7 @@ import com.savily.hexagonal.backend.testing.core.common.HashProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Password {
@@ -69,5 +70,18 @@ public class Password {
     @Override
     public String toString() {
         return securePassword;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Password)) return false;
+        Password password = (Password) o;
+        return Objects.equals(securePassword, password.securePassword);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(securePassword);
     }
 }

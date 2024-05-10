@@ -77,12 +77,27 @@ public class PasswordTest {
         assertEquals(expectedExemptionMessage, actualExemptionMessage);
     }
     @Test
-    @DisplayName(("ensures password is hashed"))
+    @DisplayName("ensures password is hashed")
     public void ensuresHashingPassword() {
         Password password = Password.createFromPlainText("SecurePass123_");
         String hashedValue = password.toString();
         assertNotEquals("SecurePass123_", hashedValue);
         assertEquals(64, hashedValue.length());
         assertTrue(Pattern.matches("^[a-fA-F0-9]{64}$", hashedValue));
+    }
+    @Test
+    @DisplayName("matches when two passwords are equals")
+    public void matchesTwoEqualPassword() {
+        String plainText = "SecurePass123_";
+        Password aPassword = Password.createFromPlainText(plainText);
+        Password anotherPassword = Password.createFromPlainText(plainText);
+        assertEquals(aPassword, anotherPassword);
+    }
+    @Test
+    @DisplayName("does not match when two passwords are different")
+    public void doesNotMatchTwoDifferentPassword() {
+        Password aPassword = Password.createFromPlainText("SecurePass123_");
+        Password anotherPassword = Password.createFromPlainText("SecurePass456_");
+        assertNotEquals(aPassword, anotherPassword);
     }
 }
