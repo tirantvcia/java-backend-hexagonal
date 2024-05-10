@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Email {
-    String address;
+    private final String address;
     private Email(String address)  {
         this.address = address;
     }

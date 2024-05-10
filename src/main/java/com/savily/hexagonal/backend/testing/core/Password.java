@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Password {
-    private String securePassword;
+    private final String securePassword;
     private Password(String securePass) {
         this.securePassword = securePass;
     }
