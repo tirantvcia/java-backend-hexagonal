@@ -1,4 +1,9 @@
-package com.savily.hexagonal.backend.testing.core;
+package com.savily.hexagonal.backend.testing.core.entities;
+
+import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Id;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
+import com.savily.hexagonal.backend.testing.core.common.ValidationError;
 
 public class User {
     private final Id id;

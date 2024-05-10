@@ -1,10 +1,10 @@
-package com.savily.hexagonal.backend.testing.unit;
+package com.savily.hexagonal.backend.testing.unit.valueObjects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import com.savily.hexagonal.backend.testing.core.Email;
-import com.savily.hexagonal.backend.testing.core.ValidationError;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
+import com.savily.hexagonal.backend.testing.core.common.ValidationError;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

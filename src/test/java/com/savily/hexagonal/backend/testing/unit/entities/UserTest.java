@@ -1,6 +1,10 @@
-package com.savily.hexagonal.backend.testing.unit;
+package com.savily.hexagonal.backend.testing.unit.entities;
 
-import com.savily.hexagonal.backend.testing.core.*;
+import com.savily.hexagonal.backend.testing.core.common.ValidationError;
+import com.savily.hexagonal.backend.testing.core.entities.User;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Id;
+import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,6 @@
-package com.savily.hexagonal.backend.testing.core;
+package com.savily.hexagonal.backend.testing.core.valueObjects;
 
+import com.savily.hexagonal.backend.testing.core.common.ValidationError;
 import com.savily.hexagonal.backend.testing.core.common.HashGenerator;
 
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package com.savily.hexagonal.backend.testing.core;
+package com.savily.hexagonal.backend.testing.core.valueObjects;
+
+import com.savily.hexagonal.backend.testing.core.common.ValidationError;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
