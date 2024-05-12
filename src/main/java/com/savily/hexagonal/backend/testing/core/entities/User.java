@@ -4,6 +4,7 @@ import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.core.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.core.common.ValidationError;
+import com.savily.hexagonal.backend.testing.infrastructure.UserDataBase;
 
 public class User {
     private final Id id;
@@ -29,5 +30,13 @@ public class User {
 
     public boolean isMatchingPassword(Password newPassword) {
         return this.password.equals(newPassword);
+    }
+
+    public UserDataBase toUserEntity() {
+        final UserDataBase userDB = new UserDataBase();
+        userDB.setEmail(email.toString());
+        userDB.setPassword(password.toString());
+        userDB.setId(id.toString());
+        return userDB;
     }
 }
