@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserDataBase {
+public class UserEntity {
     @Id
     private String id;
     private String password;

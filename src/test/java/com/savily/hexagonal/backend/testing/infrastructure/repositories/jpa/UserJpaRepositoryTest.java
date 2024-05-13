@@ -5,7 +5,7 @@ import com.savily.hexagonal.backend.testing.core.entities.User;
 import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.core.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.infrastructure.UserDataBase;
+import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserJpaRepositoryTest {
         final User user = new User(id, email, password);
         userRepository.save(user.toUserEntity());
 
-        Optional<UserDataBase> userById = userRepository.findById(id.toString());
+        Optional<UserEntity> userById = userRepository.findById(id.toString());
         assertTrue(userById.isPresent());
         assertEquals(id.toString(), userById.get().getId());
     }
