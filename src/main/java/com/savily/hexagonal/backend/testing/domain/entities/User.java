@@ -1,9 +1,9 @@
-package com.savily.hexagonal.backend.testing.core.entities;
+package com.savily.hexagonal.backend.testing.domain.entities;
 
-import com.savily.hexagonal.backend.testing.core.valueObjects.Email;
-import com.savily.hexagonal.backend.testing.core.valueObjects.Id;
-import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.core.common.ValidationError;
+import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
+import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
+import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
+import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 
 public class User {

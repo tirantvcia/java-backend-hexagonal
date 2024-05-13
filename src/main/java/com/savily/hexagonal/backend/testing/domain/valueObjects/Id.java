@@ -1,7 +1,7 @@
-package com.savily.hexagonal.backend.testing.core.valueObjects;
+package com.savily.hexagonal.backend.testing.domain.valueObjects;
 
-import com.savily.hexagonal.backend.testing.core.common.ValidationError;
-import com.savily.hexagonal.backend.testing.core.common.UuidGenerator;
+import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
+import com.savily.hexagonal.backend.testing.domain.common.UuidGenerator;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

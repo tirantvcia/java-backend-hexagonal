@@ -1,4 +1,4 @@
-package com.savily.hexagonal.backend.testing.core.common;
+package com.savily.hexagonal.backend.testing.domain.common;
 
 import java.util.UUID;
 

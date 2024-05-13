@@ -1,7 +1,6 @@
-package com.savily.hexagonal.backend.testing.unit.valueObjects;
+package com.savily.hexagonal.backend.testing.domain.valueObjects;
 
-import com.savily.hexagonal.backend.testing.core.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.core.common.ValidationError;
+import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
