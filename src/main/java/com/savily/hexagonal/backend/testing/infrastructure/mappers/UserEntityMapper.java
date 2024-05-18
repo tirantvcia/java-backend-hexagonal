@@ -13,7 +13,7 @@ public class UserEntityMapper {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(getUserId(user));
         userEntity.setPassword(getUserPassword(user));
-        userEntity.setPassword(getUserEmail(user));
+        userEntity.setEmail(getUserEmail(user));
         return userEntity;
     }
 
