@@ -32,4 +32,8 @@ public class UserEntityMapper {
         Id id = user.getId();
         return id.toString();
     }
+
+    public User toDomain(UserEntity userEntity) {
+        return new User(Id.createFrom(userEntity.getId()), Email.create(userEntity.getEmail()), Password.createFromHashedValue(userEntity.getPassword()));
+    }
 }

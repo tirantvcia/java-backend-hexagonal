@@ -32,14 +32,6 @@ public class User {
         return this.password.equals(newPassword);
     }
 
-    public UserEntity toUserEntity() {
-        final UserEntity userDB = new UserEntity();
-        userDB.setEmail(email.toString());
-        userDB.setPassword(password.toString());
-        userDB.setId(id.toString());
-        return userDB;
-    }
-
     public Id getId() {
         return id;
     }

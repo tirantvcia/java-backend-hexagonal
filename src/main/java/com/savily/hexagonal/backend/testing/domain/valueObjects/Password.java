@@ -68,6 +68,19 @@ public class Password {
         return securePassword.length() > 6;
     }
 
+    public static Password createFromHashedValue(String hashedPassword) {
+        ensureIsValidHashedPassword(hashedPassword);
+        return new Password(hashedPassword);
+    }
+
+    private static void ensureIsValidHashedPassword(String hashedPassword) {
+        boolean isValidFormat = hashedPassword != null && hashedPassword.length() == 64 && (Pattern.matches("^[a-fA-F0-9]{64}$", hashedPassword));
+        if(!isValidFormat) {
+            throw new ValidationError("Hashing password is not in valid format");
+        }
+        ;
+    }
+
     @Override
     public String toString() {
         return securePassword;

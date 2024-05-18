@@ -51,6 +51,28 @@ class UserRepositoryAdapterTest {
 
     @Test
     void findById() {
+        final Id id = Id.generateUniqueIdentifier();
+        final User expectedUser = createUser(id);
+        Id idUserSaved = userRepositoryAdapter.save(expectedUser);
+        Optional<User> userById = userRepositoryAdapter.findById(id);
+        assertTrue(userById.isPresent());
+        User actualUser = userById.get();
+        assertionsFromUser(expectedUser, actualUser);
+    }
+
+    @Test
+    void doesNotFindById() {
+        final Id id = Id.generateUniqueIdentifier();
+        final User expectedUser = createUser(id);
+        Optional<User> userById = userRepositoryAdapter.findById(id);
+        assertFalse(userById.isPresent());
+    }
+
+    private static void assertionsFromUser(User expectedUser, User actualUser) {
+
+        assertEquals(expectedUser.getId(), actualUser.getId());
+        assertEquals(expectedUser.getEmail(), actualUser.getEmail());
+        assertTrue(expectedUser.isMatchingPassword(actualUser.getPassword()) );
     }
 
     @Test

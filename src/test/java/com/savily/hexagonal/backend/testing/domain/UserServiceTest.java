@@ -26,9 +26,10 @@ public class UserServiceTest {
     public void testFindById() {
         final Id id = Id.generateUniqueIdentifier();
         final User expectedUser = createUser(id);
-        when(userRepository.findById(id)).thenReturn(expectedUser);
-        User user = userService.findById(id);
-        assertEquals(expectedUser, user);
+        when(userRepository.findById(id)).thenReturn(Optional.of(expectedUser));
+        Optional<User> user = userService.findById(id);
+        assertTrue(user.isPresent());
+        assertEquals(expectedUser, user.get());
     }
     private User createUser(Id id) {
         final Email email = Email.create("test@example.com");

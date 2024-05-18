@@ -8,10 +8,12 @@ import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserEntityMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
+
+import javax.swing.text.html.Option;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserRepositoryAdapter implements UserRepository {
@@ -34,8 +36,9 @@ public class UserRepositoryAdapter implements UserRepository {
     }
 
     @Override
-    public User findById(Id id) {
-        return null;
+    public Optional<User> findById(Id id) {
+        Optional<UserEntity> userSaved = userJpaRepository.findById(id.toString());
+        return userSaved.map(mapper::toDomain);
     }
 
     @Override

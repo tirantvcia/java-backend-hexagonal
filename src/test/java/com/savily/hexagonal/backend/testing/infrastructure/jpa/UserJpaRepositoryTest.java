@@ -7,6 +7,7 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
+import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserEntityMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public class UserJpaRepositoryTest {
     @Autowired
     UserJpaRepository userRepository;
+    @Autowired
+    UserEntityMapper mapper;
 
     @Test
     void testFindById() {
@@ -26,7 +29,7 @@ public class UserJpaRepositoryTest {
         final Id id = Id.generateUniqueIdentifier();
         final Password password = Password.createFromPlainText("testPass123_");
         User user = new User(id, email, password);
-        userRepository.save(user.toUserEntity());
+        userRepository.save(mapper.toEntity(user));
         Optional<UserEntity> userById = userRepository.findById(id.toString());
         assertTrue(userById.isPresent());
         UserEntity userEntity = userById.get();
@@ -45,7 +48,7 @@ public class UserJpaRepositoryTest {
         final Password password = Password.createFromPlainText("testPass123_");
         final Email email = Email.create("test@example.com");
         final User user = new User(id, email, password);
-        userRepository.save(user.toUserEntity());
+        userRepository.save(mapper.toEntity(user));
 
         Optional<UserEntity> userById = userRepository.findByEmail(email.toString());
         assertTrue(userById.isPresent());
@@ -66,7 +69,7 @@ public class UserJpaRepositoryTest {
         final Password password = Password.createFromPlainText("testPass123_");
         final Email email = Email.create("test@example.com");
         final User user = new User(id, email, password);
-        userRepository.save(user.toUserEntity());
+        userRepository.save(mapper.toEntity(user));
 
         List<UserEntity> users = userRepository.findAll();
         assertFalse(users.isEmpty());

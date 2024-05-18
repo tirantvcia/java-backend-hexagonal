@@ -12,7 +12,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findById(Id id) {
+    public Optional<User> findById(Id id) {
         return this.userRepository.findById(id);
     }
 }
