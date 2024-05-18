@@ -5,11 +5,12 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
-    public void save(User user);
-    public User findById(Id id);
-    public User findByEmail(Email email);
-    public List<User> findAll();
-    public void remove(User user);
+    Id save(User user);
+    User findById(Id id);
+    User findByEmail(Email email);
+    List<User> findAll();
+    void remove(User user);
 }

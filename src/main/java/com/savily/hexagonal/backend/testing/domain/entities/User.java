@@ -39,4 +39,16 @@ public class User {
         userDB.setId(id.toString());
         return userDB;
     }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
 }
