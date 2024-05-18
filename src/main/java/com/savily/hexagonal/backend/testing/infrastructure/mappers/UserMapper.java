@@ -8,7 +8,7 @@ import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserEntityMapper {
+public class UserMapper {
     public UserEntity toEntity(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(getUserId(user));

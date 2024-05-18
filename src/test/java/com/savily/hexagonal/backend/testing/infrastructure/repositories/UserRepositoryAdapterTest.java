@@ -7,7 +7,7 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
-import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserEntityMapper;
+import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class UserRepositoryAdapterTest {
 
     @Autowired
     UserJpaRepository userJpaRepository;
     @Autowired
-    UserEntityMapper mapper;
+    UserMapper mapper;
 
     UserRepositoryAdapter userRepositoryAdapter;
     @BeforeEach

@@ -6,11 +6,10 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
-import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserEntityMapper;
+import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
 import org.springframework.stereotype.Component;
 
 
-import javax.swing.text.html.Option;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +18,8 @@ import java.util.Optional;
 public class UserRepositoryAdapter implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
-    private final UserEntityMapper mapper;
-    public UserRepositoryAdapter(UserJpaRepository userJpaRepository, UserEntityMapper mapper) {
+    private final UserMapper mapper;
+    public UserRepositoryAdapter(UserJpaRepository userJpaRepository, UserMapper mapper) {
         this.userJpaRepository = userJpaRepository;
         this.mapper = mapper;
     }
