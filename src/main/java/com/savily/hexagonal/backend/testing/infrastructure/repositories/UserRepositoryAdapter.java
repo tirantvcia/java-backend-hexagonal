@@ -7,12 +7,13 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserEntityMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 
-@Service
+@Component
 public class UserRepositoryAdapter implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
