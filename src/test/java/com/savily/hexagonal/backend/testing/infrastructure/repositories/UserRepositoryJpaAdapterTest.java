@@ -16,24 +16,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 @SpringBootTest
-class UserRepositoryAdapterTest {
+class UserRepositoryJpaAdapterTest {
 
     @Autowired
     UserJpaRepository userJpaRepository;
     @Autowired
     UserMapper mapper;
 
-    UserRepositoryAdapter userRepositoryAdapter;
+    UserRepositoryJpaAdapter userRepositoryJpaAdapter;
     @BeforeEach
     void setUp() {
-        userRepositoryAdapter = new UserRepositoryAdapter(userJpaRepository, mapper);
+        userRepositoryJpaAdapter = new UserRepositoryJpaAdapter(userJpaRepository, mapper);
     }
 
     @Test
     void save() {
         final Id id = Id.generateUniqueIdentifier();
         final User user = createUser(id);
-        Id idUserSaved = userRepositoryAdapter.save(user);
+        Id idUserSaved = userRepositoryJpaAdapter.save(user);
         assertEquals(id, idUserSaved);
         Optional<UserEntity> userJpaRepositoryById = userJpaRepository.findById(id.toString());
         assertTrue(userJpaRepositoryById.isPresent());
@@ -51,8 +51,8 @@ class UserRepositoryAdapterTest {
     void findById() {
         final Id id = Id.generateUniqueIdentifier();
         final User expectedUser = createUser(id);
-        Id idUserSaved = userRepositoryAdapter.save(expectedUser);
-        Optional<User> userById = userRepositoryAdapter.findById(id);
+        Id idUserSaved = userRepositoryJpaAdapter.save(expectedUser);
+        Optional<User> userById = userRepositoryJpaAdapter.findById(id);
         assertTrue(userById.isPresent());
         User actualUser = userById.get();
         assertionsFromUser(expectedUser, actualUser);
@@ -61,8 +61,7 @@ class UserRepositoryAdapterTest {
     @Test
     void doesNotFindById() {
         final Id id = Id.generateUniqueIdentifier();
-        final User expectedUser = createUser(id);
-        Optional<User> userById = userRepositoryAdapter.findById(id);
+        Optional<User> userById = userRepositoryJpaAdapter.findById(id);
         assertFalse(userById.isPresent());
     }
 

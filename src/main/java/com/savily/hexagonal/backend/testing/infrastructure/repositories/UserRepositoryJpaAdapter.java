@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class UserRepositoryAdapter implements UserRepository {
+public class UserRepositoryJpaAdapter implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
     private final UserMapper mapper;
-    public UserRepositoryAdapter(UserJpaRepository userJpaRepository, UserMapper mapper) {
+    public UserRepositoryJpaAdapter(UserJpaRepository userJpaRepository, UserMapper mapper) {
         this.userJpaRepository = userJpaRepository;
         this.mapper = mapper;
     }
