@@ -4,7 +4,7 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
-import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
+
 
 public class User {
     private final Id id;

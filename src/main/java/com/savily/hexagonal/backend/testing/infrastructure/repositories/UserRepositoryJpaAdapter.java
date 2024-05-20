@@ -8,9 +8,6 @@ import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
 import org.springframework.stereotype.Component;
-
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
