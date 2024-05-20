@@ -31,6 +31,22 @@ public class UserServiceTest {
         assertTrue(user.isPresent());
         assertEquals(expectedUser, user.get());
     }
+    @Test
+    public void testFindByEmail() {
+        final Email email = Email.create("test@example.com");
+        final User expectedUser = createUserByEmail(email);
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(expectedUser));
+        Optional<User> user = userService.findByEmail(email);
+        assertTrue(user.isPresent());
+        assertEquals(expectedUser, user.get());
+    }
+
+    private User createUserByEmail(Email email) {
+        final Id id = Id.generateUniqueIdentifier();
+        final Password password = Password.createFromPlainText("SafePass123_");
+        return new User(id, email, password);
+    }
+
     private User createUser(Id id) {
         final Email email = Email.create("test@example.com");
         final Password password = Password.createFromPlainText("SafePass123_");
