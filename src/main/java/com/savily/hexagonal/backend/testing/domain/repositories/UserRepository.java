@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserRepository {
     Id save(User user);
     Optional<User> findById(Id id);
-    User findByEmail(Email email);
+    Optional<User> findByEmail(Email email);
     List<User> findAll();
     void remove(User user);
 }

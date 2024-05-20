@@ -7,6 +7,7 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,8 +19,13 @@ import java.util.Optional;
 public class UserJpaRepositoryTest {
     @Autowired
     UserJpaRepository userRepository;
-    @Autowired
+
     UserMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        mapper = new UserMapper();
+    }
 
     @Test
     void testFindById() {
@@ -49,9 +55,9 @@ public class UserJpaRepositoryTest {
         final User user = new User(id, email, password);
         userRepository.save(mapper.toEntity(user));
 
-        Optional<UserEntity> userById = userRepository.findByEmail(email.toString());
-        assertTrue(userById.isPresent());
-        UserEntity userEntity = userById.get();
+        Optional<UserEntity> userByEmail = userRepository.findByEmail(email.toString());
+        assertTrue(userByEmail.isPresent());
+        UserEntity userEntity = userByEmail.get();
         assertEquals(id.toString(), userEntity.getId());
     }
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserRepositoryJpaAdapter implements UserRepository {
@@ -41,17 +42,20 @@ public class UserRepositoryJpaAdapter implements UserRepository {
     }
 
     @Override
-    public User findByEmail(Email email) {
-        return null;
+    public Optional<User> findByEmail(Email email) {
+        Optional<UserEntity> userSaved = userJpaRepository.findByEmail(email.toString());
+        return userSaved.map(mapper::toDomain);
     }
 
     @Override
     public List<User> findAll() {
-        return Collections.emptyList();
+        List<UserEntity> usersSaved = userJpaRepository.findAll();
+        return usersSaved.stream().map(mapper::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public void remove(User user) {
-
+        userJpaRepository.delete(mapper.toEntity(user));
     }
+
 }

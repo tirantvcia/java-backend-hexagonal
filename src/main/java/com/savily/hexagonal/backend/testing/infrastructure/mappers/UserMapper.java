@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
+    public UserMapper() {
+    }
+
     public UserEntity toEntity(User user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(getUserId(user));
