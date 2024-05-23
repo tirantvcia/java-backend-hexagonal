@@ -37,6 +37,6 @@ public class EmailTest {
         String address = "example@example.com";
         Email anEmail = Email.create(address);
         Email otherEmail = Email.create(address);
-        assertTrue(anEmail.equals(otherEmail));
+        assertEquals(anEmail, otherEmail);
     }
 }

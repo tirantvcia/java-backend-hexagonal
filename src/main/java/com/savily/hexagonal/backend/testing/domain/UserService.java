@@ -20,4 +20,8 @@ public class UserService {
     public Optional<User> findByEmail(Email email) {
         return this.userRepository.findByEmail(email);
     }
+
+    public Id save(User user) {
+        return this.userRepository.save(user);
+    }
 }
