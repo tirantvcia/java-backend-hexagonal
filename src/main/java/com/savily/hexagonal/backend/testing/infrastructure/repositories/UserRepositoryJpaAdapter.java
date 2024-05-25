@@ -51,8 +51,9 @@ public class UserRepositoryJpaAdapter implements UserRepository {
     }
 
     @Override
-    public void remove(User user) {
+    public boolean remove(User user) {
         userJpaRepository.delete(mapper.toEntity(user));
+        return false;
     }
 
 }

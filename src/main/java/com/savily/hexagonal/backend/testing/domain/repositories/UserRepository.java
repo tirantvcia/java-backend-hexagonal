@@ -12,5 +12,5 @@ public interface UserRepository {
     Optional<User> findById(Id id);
     Optional<User> findByEmail(Email email);
     List<User> findAll();
-    void remove(User user);
+    boolean remove(User user);
 }

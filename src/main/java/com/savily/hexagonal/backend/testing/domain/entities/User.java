@@ -47,4 +47,8 @@ public class User {
     public boolean isMatchingId(Id id) {
        return this.id.equals(id);
     }
+
+    public boolean isMatchingEmail(Email email) {
+        return this.email.equals(email);
+    }
 }
