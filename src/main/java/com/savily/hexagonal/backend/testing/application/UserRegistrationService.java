@@ -14,12 +14,6 @@ public class UserRegistrationService {
         this.userService = userService;
     }
 
-    public User register(String email, String password) {
-        ensureIfEmailDoesNotExist(email);
-        User user = createUser(email, password);
-        return userService.save(user);
-    }
-
     private void ensureIfEmailDoesNotExist(String email) {
         if(isEmailAlreadyExist(email)) {
             throw new ValidationError("User registration fails because email already exists");
@@ -33,5 +27,13 @@ public class UserRegistrationService {
     private User createUser(String email, String password) {
         final Id id = Id.generateUniqueIdentifier();
         return new User(id, Email.create(email), Password.createFromPlainText(password));
+    }
+
+    public User register(UserRegistrationRequest userRegistrationRequest) {
+        final String email = userRegistrationRequest.getEmail();
+        ensureIfEmailDoesNotExist(email);
+        final String password = userRegistrationRequest.getPassword();
+        User user = createUser(email, password);
+        return userService.save(user);
     }
 }
