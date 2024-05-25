@@ -2,8 +2,6 @@ package com.savily.hexagonal.backend.testing.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.savily.hexagonal.backend.testing.domain.UserService;
-import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 import com.savily.hexagonal.backend.testing.domain.entities.User;
 import com.savily.hexagonal.backend.testing.domain.repositories.InMemoryUserRepository;
 import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
@@ -22,8 +20,7 @@ public class UserRegistrationServiceTest {
     @BeforeEach
     void setUp() {
         userRepository = new InMemoryUserRepository();
-        UserService userService = new UserService(userRepository);
-        userRegistrationService = new UserRegistrationService(userService);
+        userRegistrationService = new UserRegistrationService(userRepository);
     }
 
     @Test

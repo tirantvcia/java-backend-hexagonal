@@ -1,17 +1,17 @@
 package com.savily.hexagonal.backend.testing.application;
 
-import com.savily.hexagonal.backend.testing.domain.UserService;
 import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 import com.savily.hexagonal.backend.testing.domain.entities.User;
+import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 
 public class UserRegistrationService {
-    private final UserService userService;
+    private final UserRepository repository;
 
-    public UserRegistrationService(UserService userService) {
-        this.userService = userService;
+    public UserRegistrationService(UserRepository repository) {
+        this.repository = repository;
     }
 
     private void ensureIfEmailDoesNotExist(String email) {
@@ -21,7 +21,7 @@ public class UserRegistrationService {
     }
 
     private boolean isEmailAlreadyExist(String email) {
-        return userService.findByEmail(Email.create(email)).isPresent();
+        return repository.findByEmail(Email.create(email)).isPresent();
     }
 
     private User createUser(String email, String password) {
@@ -34,6 +34,6 @@ public class UserRegistrationService {
         ensureIfEmailDoesNotExist(email);
         final String password = userRegistrationRequest.getPassword();
         User user = createUser(email, password);
-        return userService.save(user);
+        return repository.save(user);
     }
 }

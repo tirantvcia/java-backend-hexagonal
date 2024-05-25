@@ -1,7 +1,6 @@
 package com.savily.hexagonal.backend.testing.infrastructure;
 
 import com.savily.hexagonal.backend.testing.application.UserRegistrationService;
-import com.savily.hexagonal.backend.testing.domain.UserService;
 import com.savily.hexagonal.backend.testing.infrastructure.repositories.UserRepositoryJpaAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,13 +11,9 @@ public class BeanConfiguration {
     @Autowired
     UserRepositoryJpaAdapter userRepositoryJpaAdapter;
 
-    @Bean
-    public UserService getUserService() {
-        return new UserService(userRepositoryJpaAdapter);
-    }
 
     @Bean
     public UserRegistrationService getUserRegistrationService() {
-        return new UserRegistrationService(getUserService());
+        return new UserRegistrationService(userRepositoryJpaAdapter);
     }
 }
