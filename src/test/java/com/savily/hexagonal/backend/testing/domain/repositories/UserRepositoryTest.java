@@ -83,5 +83,19 @@ public class UserRepositoryTest {
         Optional<User> user = userRepository.findById(id);
         assertFalse(user.isPresent());
     }
+    @Test
+    public void updatesAnUserWhenExists() {
+        final Email email = Email.create("test@example.com");
+        final User aUser = createUserByEmail(email);
+        final User anotherUser = createUserByEmail(email);;
+
+        userRepository.save(aUser);
+        userRepository.save(anotherUser);
+
+        List<User> users = userRepository.findAll();
+        assertFalse(users.isEmpty());
+        assertEquals(1, users.size());
+
+    }
 
 }
