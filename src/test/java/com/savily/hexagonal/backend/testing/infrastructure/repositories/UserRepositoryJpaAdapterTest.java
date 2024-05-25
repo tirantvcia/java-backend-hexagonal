@@ -39,8 +39,8 @@ class UserRepositoryJpaAdapterTest {
     void save() {
         final Id id = Id.generateUniqueIdentifier();
         final User user = createUserById(id);
-        Id idUserSaved = userRepositoryJpaAdapter.save(user);
-        assertEquals(id, idUserSaved);
+        User userSaved = userRepositoryJpaAdapter.save(user);
+        assertTrue(userSaved.isMatchingId(id));
         Optional<UserEntity> userJpaRepositoryById = userJpaRepository.findById(id.toString());
         assertTrue(userJpaRepositoryById.isPresent());
         UserEntity userEntity = userJpaRepositoryById.get();
@@ -53,7 +53,7 @@ class UserRepositoryJpaAdapterTest {
     void findById() {
         final Id id = Id.generateUniqueIdentifier();
         final User expectedUser = createUserById(id);
-        Id idUserSaved = userRepositoryJpaAdapter.save(expectedUser);
+        User userSaved = userRepositoryJpaAdapter.save(expectedUser);
         Optional<User> userById = userRepositoryJpaAdapter.findById(id);
         assertTrue(userById.isPresent());
         User actualUser = userById.get();
@@ -70,7 +70,7 @@ class UserRepositoryJpaAdapterTest {
     void findByEmail() {
         final Email email = Email.create("test@example.com");
         final User expectedUser = createUserByEmail(email);
-        Id idUserSaved = userRepositoryJpaAdapter.save(expectedUser);
+        User userSaved = userRepositoryJpaAdapter.save(expectedUser);
         Optional<User> userByEmail = userRepositoryJpaAdapter.findByEmail(email);
         assertTrue(userByEmail.isPresent());
         User actualUser = userByEmail.get();
@@ -100,7 +100,7 @@ class UserRepositoryJpaAdapterTest {
     void findAll() {
         final Id id = Id.generateUniqueIdentifier();
         final User expectedUser = createUserById(id);
-        Id idUserSaved = userRepositoryJpaAdapter.save(expectedUser);
+        User userSaved = userRepositoryJpaAdapter.save(expectedUser);
         List<User> usersFound = userRepositoryJpaAdapter.findAll();
         assertFalse(usersFound.isEmpty());
         assertEquals(1, usersFound.size());
@@ -117,7 +117,7 @@ class UserRepositoryJpaAdapterTest {
     void remove() {
         final Id id = Id.generateUniqueIdentifier();
         final User user = createUserById(id);
-        Id idUserSaved = userRepositoryJpaAdapter.save(user);
+        User userSaved = userRepositoryJpaAdapter.save(user);
         userRepositoryJpaAdapter.remove(user);
         Optional<User> userById = userRepositoryJpaAdapter.findById(id);
         assertFalse(userById.isPresent());

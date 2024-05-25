@@ -43,4 +43,8 @@ public class User {
     public Password getPassword() {
         return password;
     }
+
+    public boolean isMatchingId(Id id) {
+       return this.id.equals(id);
+    }
 }

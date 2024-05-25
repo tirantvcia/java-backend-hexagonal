@@ -21,7 +21,8 @@ public class UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    public Id save(User user) {
-        return this.userRepository.save(user);
+    public User save(User user) {
+         User userSaved = this.userRepository.save(user);
+         return userSaved;
     }
 }

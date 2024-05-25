@@ -15,12 +15,15 @@ public class UserRegistrationService {
     }
 
     public User register(String email, String password) {
+        ensureIfEmailDoesNotExist(email);
+        User user = createUser(email, password);
+        return userService.save(user);
+    }
+
+    private void ensureIfEmailDoesNotExist(String email) {
         if(isEmailAlreadyExist(email)) {
             throw new ValidationError("User registration fails because email already exists");
         }
-        User user = createUser(email, password);
-        Id id = userService.save(user);
-        return user;
     }
 
     private boolean isEmailAlreadyExist(String email) {

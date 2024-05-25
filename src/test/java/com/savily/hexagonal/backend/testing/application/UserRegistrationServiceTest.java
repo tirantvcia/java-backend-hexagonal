@@ -30,6 +30,7 @@ public class UserRegistrationServiceTest {
     public void registerUserSuccessfully() {
         final String email = "test@example.com";
         final String password = "SafePass123_";
+        final User expectedUser = createUserByEmail(Email.create(email));
         when(userRepository.findByEmail(Email.create(email))).thenReturn(Optional.empty());
         User currentUser = userRegistrationService.register(email, password);
         assertEquals(Email.create(email), currentUser.getEmail());
