@@ -5,8 +5,6 @@ import com.savily.hexagonal.backend.testing.domain.entities.User;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
-import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

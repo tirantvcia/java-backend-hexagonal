@@ -1,4 +1,4 @@
-package com.savily.hexagonal.backend.testing.infrastructure;
+package com.savily.hexagonal.backend.testing.infrastructure.repositories;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

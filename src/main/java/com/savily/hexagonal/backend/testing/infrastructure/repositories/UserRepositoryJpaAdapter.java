@@ -4,8 +4,6 @@ import com.savily.hexagonal.backend.testing.domain.entities.User;
 import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
-import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
-import com.savily.hexagonal.backend.testing.infrastructure.jpa.UserJpaRepository;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
 import org.springframework.stereotype.Component;
 import java.util.List;

@@ -1,7 +1,6 @@
-package com.savily.hexagonal.backend.testing.infrastructure.jpa;
+package com.savily.hexagonal.backend.testing.infrastructure.repositories;
 
 
-import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

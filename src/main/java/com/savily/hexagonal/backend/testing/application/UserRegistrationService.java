@@ -14,6 +14,15 @@ public class UserRegistrationService {
         this.repository = repository;
     }
 
+    public UserRegistrationResponse register(UserRegistrationRequest userRegistrationRequest) {
+        final String email = userRegistrationRequest.getEmail();
+        ensureIfEmailDoesNotExist(email);
+        final String password = userRegistrationRequest.getPassword();
+        User user = createUser(email, password);
+        repository.save(user);
+        return Mapper.toResponseDto(user);
+    }
+
     private void ensureIfEmailDoesNotExist(String email) {
         if(isEmailAlreadyExist(email)) {
             throw new ValidationError("User registration fails because email already exists");
@@ -29,11 +38,5 @@ public class UserRegistrationService {
         return new User(id, Email.create(email), Password.createFromPlainText(password));
     }
 
-    public User register(UserRegistrationRequest userRegistrationRequest) {
-        final String email = userRegistrationRequest.getEmail();
-        ensureIfEmailDoesNotExist(email);
-        final String password = userRegistrationRequest.getPassword();
-        User user = createUser(email, password);
-        return repository.save(user);
-    }
+
 }

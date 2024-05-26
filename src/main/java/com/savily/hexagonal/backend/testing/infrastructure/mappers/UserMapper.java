@@ -4,7 +4,7 @@ import com.savily.hexagonal.backend.testing.domain.entities.User;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.infrastructure.UserEntity;
+import com.savily.hexagonal.backend.testing.infrastructure.repositories.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,5 +1,6 @@
 package com.savily.hexagonal.backend.testing.domain.entities;
 
+import com.savily.hexagonal.backend.testing.application.UserRegistrationResponse;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
@@ -51,4 +52,5 @@ public class User {
     public boolean isMatchingEmail(Email email) {
         return this.email.equals(email);
     }
+
 }
