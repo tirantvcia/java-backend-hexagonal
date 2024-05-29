@@ -10,11 +10,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class InMemoryUserRepository implements UserRepository{
-    private List<User> inMemoryRepoUsers;
-
-    public InMemoryUserRepository(List<User> inMemoryRepoUsers) {
-        this.inMemoryRepoUsers = inMemoryRepoUsers;
-    }
+    private final List<User> inMemoryRepoUsers;
 
     public InMemoryUserRepository() {
         this.inMemoryRepoUsers = new ArrayList<>();
@@ -25,13 +21,13 @@ public class InMemoryUserRepository implements UserRepository{
         int elementPosition = getPositionByEmail(user);
         final int notFoundIndex = -1;
         if(elementPosition != notFoundIndex) {
-            return updatePassword(user, elementPosition);
+            return updateUser(user, elementPosition);
         }
         this.inMemoryRepoUsers.add(user);
         return getLastElement();
     }
 
-    private User updatePassword(User user, int elementPosition) {
+    private User updateUser(User user, int elementPosition) {
         this.inMemoryRepoUsers.set(elementPosition, user);
         return user;
     }
