@@ -15,19 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/api/hexagonal/inmemory/")
+
 public class UserRegistrationController {
     private final Logger logger = LoggerFactory.getLogger(UserRegistrationController.class);
     private final UserRegistrationService service;
 
-    public UserRegistrationController(@Qualifier("userInMemoryRegistrationService") UserRegistrationService service) {
+    public UserRegistrationController(UserRegistrationService service) {
         this.service = service;
     }
 
-    @PostMapping("/register")
-    @Transactional
-    public ResponseEntity<?> register(@RequestBody UserRegistrationRequest userRegistrationDto) {
+
+    public ResponseEntity<Map<String, Object>> register(UserRegistrationRequest userRegistrationDto) {
 
         try {
             ensureRequestIsValid(userRegistrationDto);
