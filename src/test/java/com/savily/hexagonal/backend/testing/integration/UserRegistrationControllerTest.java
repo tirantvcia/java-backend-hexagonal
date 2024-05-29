@@ -29,6 +29,21 @@ public class UserRegistrationControllerTest {
         assertTrue(jsonWithRegistrationResponse.contains("User registration successfully"));
 
     }
+    @Test
+    public void registerNewUserForValidEmailPasswordInJpaData() {
+        final String email = "test@test.com";
+        final String password = "TestPass123_";
+        final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
+
+        ResponseEntity<String> registrationResponse = client.postForEntity("/api/hexagonal/jpa/register", request, String.class);
+
+        String jsonWithRegistrationResponse = registrationResponse.getBody();
+        assertEquals(HttpStatus.CREATED, registrationResponse.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, registrationResponse.getHeaders().getContentType());
+        assertNotNull(jsonWithRegistrationResponse);
+        assertTrue(jsonWithRegistrationResponse.contains("User registration successfully"));
+
+    }
 
     @Test
     public void rejectNewUserEmailIsNotProvided() {
