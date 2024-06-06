@@ -6,6 +6,8 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 
+import java.util.Objects;
+
 
 public class User {
     private final Id id;
@@ -53,4 +55,16 @@ public class User {
         return this.email.equals(email);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email);
+    }
 }

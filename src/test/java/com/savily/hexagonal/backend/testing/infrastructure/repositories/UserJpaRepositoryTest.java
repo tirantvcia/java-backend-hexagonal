@@ -1,32 +1,31 @@
-package com.savily.hexagonal.backend.testing.infrastructure.jpa;
+package com.savily.hexagonal.backend.testing.infrastructure.repositories;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.savily.hexagonal.backend.testing.domain.entities.User;
+import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
-import com.savily.hexagonal.backend.testing.infrastructure.repositories.UserEntity;
-import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
-import com.savily.hexagonal.backend.testing.infrastructure.repositories.UserJpaRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
+@ComponentScan(basePackages = {
+        "com.savily.hexagonal.backend.testing.infrastructure"
+})
 public class UserJpaRepositoryTest {
+
     @Autowired
-    UserJpaRepository userRepository;
+    @Qualifier("userJpaRepository")
+    UserRepository userRepository;
 
-    UserMapper mapper;
-
-    @BeforeEach
-    void setUp() {
-        mapper = new UserMapper();
-    }
 
     @Test
     void testFindById() {
@@ -35,16 +34,16 @@ public class UserJpaRepositoryTest {
         final Id id = Id.generateUniqueIdentifier();
         final Password password = Password.createFromPlainText("testPass123_");
         User user = new User(id, email, password);
-        userRepository.save(mapper.toEntity(user));
-        Optional<UserEntity> userById = userRepository.findById(id.toString());
+        userRepository.save(user);
+        Optional<User> userById = userRepository.findById(id);
         assertTrue(userById.isPresent());
-        UserEntity userEntity = userById.get();
-        assertEquals(id.toString(), userEntity.getId());
+        User userEntity = userById.get();
+        assertEquals(user, userEntity);
     }
     @Test
     void testNotFindById() {
         final Id id = Id.generateUniqueIdentifier();
-        Optional<UserEntity> userById = userRepository.findById(id.toString());
+        Optional<User> userById = userRepository.findById(id);
         assertFalse(userById.isPresent());
     }
 
@@ -54,18 +53,18 @@ public class UserJpaRepositoryTest {
         final Password password = Password.createFromPlainText("testPass123_");
         final Email email = Email.create("test@example.com");
         final User user = new User(id, email, password);
-        userRepository.save(mapper.toEntity(user));
+        userRepository.save(user);
 
-        Optional<UserEntity> userByEmail = userRepository.findByEmail(email.toString());
+        Optional<User> userByEmail = userRepository.findByEmail(email);
         assertTrue(userByEmail.isPresent());
-        UserEntity userEntity = userByEmail.get();
-        assertEquals(id.toString(), userEntity.getId());
+        User userEntity = userByEmail.get();
+        assertEquals(user, userEntity);
     }
 
     @Test
     void testDoesNotFindByEmail() {
         final Email email = Email.create("test@example.com");
-        Optional<UserEntity> userById = userRepository.findByEmail(email.toString());
+        Optional<User> userById = userRepository.findByEmail(email);
         assertFalse(userById.isPresent());
     }
 
@@ -75,9 +74,9 @@ public class UserJpaRepositoryTest {
         final Password password = Password.createFromPlainText("testPass123_");
         final Email email = Email.create("test@example.com");
         final User user = new User(id, email, password);
-        userRepository.save(mapper.toEntity(user));
+        userRepository.save(user);
 
-        List<UserEntity> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
         assertFalse(users.isEmpty());
         assertEquals(1, users.size());
     }
