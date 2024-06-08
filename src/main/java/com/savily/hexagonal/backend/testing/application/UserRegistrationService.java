@@ -7,6 +7,8 @@ import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 
+import java.util.Optional;
+
 public class UserRegistrationService {
     private final UserRepository repository;
 
@@ -39,4 +41,12 @@ public class UserRegistrationService {
     }
 
 
+    public UserPasswordChangeResponse changePassword(UserPasswordChangeRequest userRegistrationRequest) {
+        String email = userRegistrationRequest.getEmail();
+        Optional<User> userSavedByEmail = repository.findByEmail(Email.create(email));
+        User currentUser = userSavedByEmail.get();
+        currentUser.changePassword(Password.createFromPlainText(userRegistrationRequest.getNewPassword()));
+        repository.save(currentUser);
+        return new UserPasswordChangeResponse(currentUser.getEmail().toString(), currentUser.getId().toString());
+    }
 }
