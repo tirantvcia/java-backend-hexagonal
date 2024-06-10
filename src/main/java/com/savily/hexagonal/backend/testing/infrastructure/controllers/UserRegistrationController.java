@@ -1,8 +1,6 @@
 package com.savily.hexagonal.backend.testing.infrastructure.controllers;
 
-import com.savily.hexagonal.backend.testing.application.UserRegistrationRequest;
-import com.savily.hexagonal.backend.testing.application.UserRegistrationResponse;
-import com.savily.hexagonal.backend.testing.application.UserRegistrationService;
+import com.savily.hexagonal.backend.testing.application.*;
 import com.savily.hexagonal.backend.testing.domain.common.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,4 +66,13 @@ public class UserRegistrationController {
     }
 
 
+    public ResponseEntity<Map<String, Object>> changePassword(UserPasswordChangeRequest userPasswordChangeRequest) {
+        UserPasswordChangeResponse userPasswordChangeResponse = service.changePassword(userPasswordChangeRequest);
+        UserPasswordChangeResponse changePasswordResponse = new UserPasswordChangeResponse(userPasswordChangeRequest.getEmail(), userPasswordChangeResponse.getId());
+        Map<String, Object> response = new HashMap<>();
+        response.put("id",  changePasswordResponse.getId());
+        response.put("email", changePasswordResponse.getEmail());
+        response.put("message", "User has changed password successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
