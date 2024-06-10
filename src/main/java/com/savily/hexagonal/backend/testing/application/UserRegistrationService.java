@@ -44,9 +44,17 @@ public class UserRegistrationService {
     public UserPasswordChangeResponse changePassword(UserPasswordChangeRequest userRegistrationRequest) {
         String email = userRegistrationRequest.getEmail();
         Optional<User> userSavedByEmail = repository.findByEmail(Email.create(email));
+        ensureIfUserIsCorrectlyValidadated(userSavedByEmail, userRegistrationRequest);
         User currentUser = userSavedByEmail.get();
-        currentUser.changePassword(Password.createFromPlainText(userRegistrationRequest.getNewPassword()));
+        currentUser.changePassword(Password.createFromPlainText (userRegistrationRequest.getNewPassword()));
         repository.save(currentUser);
         return new UserPasswordChangeResponse(currentUser.getEmail().toString(), currentUser.getId().toString());
+    }
+
+    private void ensureIfUserIsCorrectlyValidadated(Optional<User> userSavedByEmail, UserPasswordChangeRequest userRegistrationRequest) {
+        boolean userIsValidated = userSavedByEmail.map(user -> user.isMatchingPassword(Password.createFromPlainText(userRegistrationRequest.getOldPassword()))).orElse(false);
+        if(!userIsValidated) {
+            throw new ValidationError("User Change Password fails, Email or Password are not valid");
+        }
     }
 }
