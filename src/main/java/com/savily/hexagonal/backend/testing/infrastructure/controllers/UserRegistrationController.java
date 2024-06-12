@@ -67,12 +67,21 @@ public class UserRegistrationController {
 
 
     public ResponseEntity<Map<String, Object>> changePassword(UserPasswordChangeRequest userPasswordChangeRequest) {
-        UserPasswordChangeResponse userPasswordChangeResponse = service.changePassword(userPasswordChangeRequest);
-        UserPasswordChangeResponse changePasswordResponse = new UserPasswordChangeResponse(userPasswordChangeRequest.getEmail(), userPasswordChangeResponse.getId());
+        try {
+            UserPasswordChangeResponse userPasswordChangeResponse = service.changePassword(userPasswordChangeRequest);
+            UserPasswordChangeResponse changePasswordResponse = new UserPasswordChangeResponse(userPasswordChangeRequest.getEmail(), userPasswordChangeResponse.getId());
+            return handleChangingResponse(changePasswordResponse);
+        } catch (Exception ex) {
+            return handleError(ex);
+
+        }
+    }
+
+    private static ResponseEntity<Map<String, Object>> handleChangingResponse(UserPasswordChangeResponse changePasswordResponse) {
         Map<String, Object> response = new HashMap<>();
         response.put("id",  changePasswordResponse.getId());
         response.put("email", changePasswordResponse.getEmail());
         response.put("message", "User has changed password successfully");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

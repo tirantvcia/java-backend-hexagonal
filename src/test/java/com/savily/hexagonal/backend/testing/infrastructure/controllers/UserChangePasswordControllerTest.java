@@ -63,6 +63,29 @@ public class UserChangePasswordControllerTest {
 
     @Test
     public void failsChangUserPasswordWhenNewPasswordAsTheSameOld() {
+        final String email = "test@example.com";
+        final UserRegistrationRequest userRegistrationRequest = createRegistrationRequest();
+        userRegistrationController.register(userRegistrationRequest);
+
+        final String newPassword = "SafePass123_";
+        final String oldPassword = "SafePass123_";
+        UserPasswordChangeRequest userPasswordChangeRequest = creatingChangeUserPasswordRequest(oldPassword, newPassword);
+
+        ResponseEntity<Map<String, Object>> changePasswordResponse = userRegistrationController.changePassword(userPasswordChangeRequest);
+        Map<String, Object> jsonWithChangePasswordResponse = changePasswordResponse.getBody();
+
+        assert jsonWithChangePasswordResponse != null;
+        String message = jsonWithChangePasswordResponse.get("message").toString();
+        assertNotNull(message);
+        assertEquals("New Password must be different as current password", message);
+
+        Optional<User> userSavedWithNewPassword = userRepository.findByEmail(Email.create(email));
+        assertTrue(userSavedWithNewPassword.isPresent());
+        User currentUserWithNewPassword = userSavedWithNewPassword.get();
+        assertTrue(currentUserWithNewPassword.isMatchingEmail(Email.create(email)));
+        Password newPassWord = currentUserWithNewPassword.getPassword();
+        assertTrue(currentUserWithNewPassword.isMatchingPassword(Password.createFromPlainText(oldPassword)));
+
     }
 
     @Test
