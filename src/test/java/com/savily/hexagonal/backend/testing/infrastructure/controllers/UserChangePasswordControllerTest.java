@@ -94,8 +94,8 @@ public class UserChangePasswordControllerTest {
         final UserRegistrationRequest userRegistrationRequest = createRegistrationRequest();
         userRegistrationController.register(userRegistrationRequest);
 
-        final String newPassword = "FailSafePass123_";
-        final String oldPassword = "NewSafePass123_";
+        final String newPassword = "NewSafePass123_";
+        final String oldPassword = "FailSafePass123_";
         UserPasswordChangeRequest userPasswordChangeRequest = creatingChangeUserPasswordRequest(oldPassword, newPassword);
 
         ResponseEntity<Map<String, Object>> changePasswordResponse = userRegistrationController.changePassword(userPasswordChangeRequest);
@@ -110,6 +110,8 @@ public class UserChangePasswordControllerTest {
 
     @Test
     public void failsChangUserPasswordWhenUserIsNotValidatedCorrectlyWithWrongEmail() {
+
+
     }
 
 
