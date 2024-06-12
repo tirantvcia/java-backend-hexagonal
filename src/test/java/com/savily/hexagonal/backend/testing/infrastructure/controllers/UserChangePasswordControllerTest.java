@@ -90,7 +90,6 @@ public class UserChangePasswordControllerTest {
 
     @Test
     public void failsChangUserPasswordWhenUserIsNotValidatedCorrectlyWithWrongPassword() {
-        final String email = "test@example.com";
         final UserRegistrationRequest userRegistrationRequest = createRegistrationRequest();
         userRegistrationController.register(userRegistrationRequest);
 
@@ -110,7 +109,21 @@ public class UserChangePasswordControllerTest {
 
     @Test
     public void failsChangUserPasswordWhenUserIsNotValidatedCorrectlyWithWrongEmail() {
+        final UserRegistrationRequest userRegistrationRequest = createRegistrationRequest();
+        userRegistrationController.register(userRegistrationRequest);
 
+        final String wrongEmail = "testWrong@example.com";
+        final String newPassword = "FailSafePass123_";
+        final String oldPassword = "SafePass123_";
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest(wrongEmail, oldPassword, newPassword);
+
+        ResponseEntity<Map<String, Object>> changePasswordResponse = userRegistrationController.changePassword(userPasswordChangeRequest);
+        Map<String, Object> jsonWithChangePasswordResponse = changePasswordResponse.getBody();
+
+        assert jsonWithChangePasswordResponse != null;
+        String message = jsonWithChangePasswordResponse.get("message").toString();
+        assertNotNull(message);
+        assertEquals("User Change Password fails, Email or Password are not valid", message);
 
     }
 
