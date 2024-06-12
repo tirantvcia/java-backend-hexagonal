@@ -69,8 +69,7 @@ public class UserRegistrationController {
     public ResponseEntity<Map<String, Object>> changePassword(UserPasswordChangeRequest userPasswordChangeRequest) {
         try {
             UserPasswordChangeResponse userPasswordChangeResponse = service.changePassword(userPasswordChangeRequest);
-            UserPasswordChangeResponse changePasswordResponse = new UserPasswordChangeResponse(userPasswordChangeRequest.getEmail(), userPasswordChangeResponse.getId());
-            return handleChangingResponse(changePasswordResponse);
+            return handleChangingResponse(userPasswordChangeResponse);
         } catch (Exception ex) {
             return handleError(ex);
 
