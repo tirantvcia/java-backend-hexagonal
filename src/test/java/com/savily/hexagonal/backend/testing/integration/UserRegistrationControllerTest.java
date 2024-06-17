@@ -1,21 +1,41 @@
 package com.savily.hexagonal.backend.testing.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.savily.hexagonal.backend.testing.application.UserPasswordChangeRequest;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationRequest;
+import com.savily.hexagonal.backend.testing.domain.entities.User;
+import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
+import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserRegistrationControllerTest {
     @Autowired
     private TestRestTemplate client;
+
+    private ObjectMapper mapper;
+    @BeforeEach
+    public void setup() {
+        mapper = new ObjectMapper();
+    }
     @Test
-    public void registerNewUserForValidEmailPassword() {
+    public void registerNewUserForValidEmailPassword() throws JsonProcessingException {
         final String email = "test@test.com";
         final String password = "TestPass123_";
         final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
@@ -27,6 +47,12 @@ public class UserRegistrationControllerTest {
         assertEquals(MediaType.APPLICATION_JSON, registrationResponse.getHeaders().getContentType());
         assertNotNull(jsonWithRegistrationResponse);
         assertTrue(jsonWithRegistrationResponse.contains("User registration successfully"));
+
+        JsonNode jsonNode = mapper.readTree(jsonWithRegistrationResponse);
+        assertEquals("User registration successfully", jsonNode.path("message").asText());
+        assertEquals("test@test.com", jsonNode.path("email").asText());
+        String regex = "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$";
+        assertTrue(Pattern.matches(regex, jsonNode.path("id").asText()));
 
     }
     @Test
@@ -75,4 +101,17 @@ public class UserRegistrationControllerTest {
         assertTrue(jsonWithRegistrationResponse.contains("Email and Password are required"));
 
     }
+
+
+    @Test
+    public void changUserPasswordSuccessfully() {
+
+
+    }
+
+    private UserPasswordChangeRequest creatingChangeUserPasswordRequest(String oldPassword, String newPassword) {
+        final String email = "test@example.com";
+        return new UserPasswordChangeRequest(email, oldPassword, newPassword);
+    }
+
 }
