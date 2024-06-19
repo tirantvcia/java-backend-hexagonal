@@ -7,21 +7,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savily.hexagonal.backend.testing.application.UserPasswordChangeRequest;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationRequest;
-import com.savily.hexagonal.backend.testing.domain.entities.User;
-import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
-import com.savily.hexagonal.backend.testing.domain.valueObjects.Password;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,9 +25,12 @@ public class UserRegistrationControllerTest {
     private TestRestTemplate client;
 
     private ObjectMapper mapper;
+
+
     @BeforeEach
     public void setup() {
         mapper = new ObjectMapper();
+
     }
     @Test
     public void registerNewUserForValidEmailPassword() throws JsonProcessingException {
@@ -104,10 +102,35 @@ public class UserRegistrationControllerTest {
 
 
     @Test
-    public void changUserPasswordSuccessfully() {
+    public void changUserPasswordSuccessfully() throws JsonProcessingException {
+        final String email = "test@test.com";
+        final String password = "TestPass123_";
+        final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
 
+        ResponseEntity<String> registrationResponse = client.postForEntity("/api/hexagonal/inmemory/register", request, String.class);
+
+        String jsonWithRegistrationResponse = registrationResponse.getBody();
+        JsonNode jsonNode = mapper.readTree(jsonWithRegistrationResponse);
+        String userRegisteredId = jsonNode.path("id").asText();
+
+        Map<String, String> parameters= new HashMap<String, String>();
+        parameters.put("newPassword", "NewPass123_");
+        parameters.put("oldPassword", password);
+
+        HttpEntity entity = new HttpEntity(parameters);
+
+        client.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+
+        ResponseEntity<String> changePasswordResponse = client.exchange("/api/hexagonal/inmemory/changePassword/" + email, HttpMethod.PATCH, entity, String.class);
+        String jsonWithChangePasswordResponse = changePasswordResponse.getBody();
+        assertEquals(HttpStatus.OK, changePasswordResponse.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, changePasswordResponse.getHeaders().getContentType());
+        assertNotNull(jsonWithChangePasswordResponse);
+        assertTrue(jsonWithChangePasswordResponse.contains("User has changed password successfully"));
 
     }
+
+
 
     private UserPasswordChangeRequest creatingChangeUserPasswordRequest(String oldPassword, String newPassword) {
         final String email = "test@example.com";

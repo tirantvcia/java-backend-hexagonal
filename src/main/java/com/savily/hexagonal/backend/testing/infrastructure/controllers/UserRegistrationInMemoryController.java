@@ -1,5 +1,7 @@
 package com.savily.hexagonal.backend.testing.infrastructure.controllers;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.savily.hexagonal.backend.testing.application.UserPasswordChangeRequest;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationRequest;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationResponse;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationService;
@@ -10,10 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +36,15 @@ public class UserRegistrationInMemoryController {
         logger.debug("In UserRegistrationInMemoryController");
         return userRegistrationController.register(userRegistrationDto);
 
+    }
+
+    @PatchMapping("/changePassword/{email}")
+    public ResponseEntity<?> changePasword(@PathVariable(name = "email") String emaill, @RequestBody Map<String, String> parameters) {
+        logger.debug("In UserRegistrationInMemoryController");
+        String oldPassword = parameters.get("oldPassword");
+        String newPassword = parameters.get("newPassword");
+        UserPasswordChangeRequest userPasswordChangeRequest = new UserPasswordChangeRequest(emaill, oldPassword, newPassword);
+        return userRegistrationController.changePassword(userPasswordChangeRequest);
     }
 
 }
