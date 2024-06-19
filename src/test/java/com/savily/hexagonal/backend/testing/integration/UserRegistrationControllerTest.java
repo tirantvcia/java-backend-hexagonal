@@ -129,6 +129,63 @@ public class UserRegistrationControllerTest {
         assertTrue(jsonWithChangePasswordResponse.contains("User has changed password successfully"));
 
     }
+    @Test
+    public void failsChangUserPasswordWhenUserIsNotValidatedCorrectlyWithWrongPassword() throws JsonProcessingException {
+        final String email = "test@test.com";
+        final String password = "TestPass123_";
+        final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
+
+        ResponseEntity<String> registrationResponse = client.postForEntity("/api/hexagonal/inmemory/register", request, String.class);
+
+        String jsonWithRegistrationResponse = registrationResponse.getBody();
+        JsonNode jsonNode = mapper.readTree(jsonWithRegistrationResponse);
+        String userRegisteredId = jsonNode.path("id").asText();
+
+        Map<String, String> parameters= new HashMap<String, String>();
+        parameters.put("newPassword", "NewPass123_");
+        parameters.put("oldPassword", "NewPass123_");
+
+        HttpEntity entity = new HttpEntity(parameters);
+
+        client.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+
+        ResponseEntity<String> changePasswordResponse = client.exchange("/api/hexagonal/inmemory/changePassword/" + email, HttpMethod.PATCH, entity, String.class);
+        String jsonWithChangePasswordResponse = changePasswordResponse.getBody();
+        assertEquals(HttpStatus.BAD_REQUEST, changePasswordResponse.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, changePasswordResponse.getHeaders().getContentType());
+        assertNotNull(jsonWithChangePasswordResponse);
+        assertTrue(jsonWithChangePasswordResponse.contains("User Change Password fails, Email or Password are not valid"));
+
+    }
+
+    @Test
+    public void failsChangUserPasswordWhenUserIsNotValidatedCorrectlyWithWrongEmail() throws JsonProcessingException {
+        final String email = "test@test.com";
+        final String password = "TestPass123_";
+        final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
+
+        ResponseEntity<String> registrationResponse = client.postForEntity("/api/hexagonal/inmemory/register", request, String.class);
+
+        String jsonWithRegistrationResponse = registrationResponse.getBody();
+        JsonNode jsonNode = mapper.readTree(jsonWithRegistrationResponse);
+        String userRegisteredId = jsonNode.path("id").asText();
+
+        Map<String, String> parameters= new HashMap<String, String>();
+        parameters.put("newPassword", "NewPass123_");
+        parameters.put("oldPassword", "TestPass123_");
+
+        HttpEntity entity = new HttpEntity(parameters);
+
+        client.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+
+        String wrongEmail = "wrongTest@test.com";
+        ResponseEntity<String> changePasswordResponse = client.exchange("/api/hexagonal/inmemory/changePassword/" + wrongEmail, HttpMethod.PATCH, entity, String.class);
+        String jsonWithChangePasswordResponse = changePasswordResponse.getBody();
+        assertEquals(HttpStatus.BAD_REQUEST, changePasswordResponse.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, changePasswordResponse.getHeaders().getContentType());
+        assertNotNull(jsonWithChangePasswordResponse);
+        assertTrue(jsonWithChangePasswordResponse.contains("User Change Password fails, Email or Password are not valid"));
+    }
 
 
 
