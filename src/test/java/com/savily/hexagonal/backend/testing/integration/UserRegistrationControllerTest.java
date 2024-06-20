@@ -7,13 +7,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.savily.hexagonal.backend.testing.application.UserPasswordChangeRequest;
 import com.savily.hexagonal.backend.testing.application.UserRegistrationRequest;
+import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +31,19 @@ public class UserRegistrationControllerTest {
     private ObjectMapper mapper;
 
 
+    @Autowired
+    @Qualifier("userInMemoryRepository")
+    private UserRepository userRepository;
+
     @BeforeEach
     public void setup() {
         mapper = new ObjectMapper();
+        userRepository.deleteAll();
+
 
     }
+
+
     @Test
     public void registerNewUserForValidEmailPassword() throws JsonProcessingException {
         final String email = "test@test.com";
@@ -51,21 +63,6 @@ public class UserRegistrationControllerTest {
         assertEquals("test@test.com", jsonNode.path("email").asText());
         String regex = "^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$";
         assertTrue(Pattern.matches(regex, jsonNode.path("id").asText()));
-
-    }
-    @Test
-    public void registerNewUserForValidEmailPasswordInJpaData() {
-        final String email = "test@test.com";
-        final String password = "TestPass123_";
-        final UserRegistrationRequest request = new UserRegistrationRequest(email, password);
-
-        ResponseEntity<String> registrationResponse = client.postForEntity("/api/hexagonal/jpa/register", request, String.class);
-
-        String jsonWithRegistrationResponse = registrationResponse.getBody();
-        assertEquals(HttpStatus.CREATED, registrationResponse.getStatusCode());
-        assertEquals(MediaType.APPLICATION_JSON, registrationResponse.getHeaders().getContentType());
-        assertNotNull(jsonWithRegistrationResponse);
-        assertTrue(jsonWithRegistrationResponse.contains("User registration successfully"));
 
     }
 

@@ -13,4 +13,6 @@ public interface UserRepository {
     Optional<User> findByEmail(Email email);
     List<User> findAll();
     boolean remove(User user);
+
+    void deleteAll();
 }
