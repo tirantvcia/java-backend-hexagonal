@@ -44,7 +44,10 @@ public class UserRegistrationService {
     public UserPasswordChangeResponse changePassword(UserPasswordChangeRequest userRegistrationRequest) {
         User currentUser = findUser(userRegistrationRequest);
         currentUser.changePassword(Password.createFromPlainText (userRegistrationRequest.getNewPassword()));
-        repository.save(currentUser);
+        boolean userHasBeenUpdated = repository.update(currentUser);
+        if(!userHasBeenUpdated) {
+            throw new ValidationError("User Change Password fails");
+        }
         return new UserPasswordChangeResponse(currentUser.getEmail().toString(), currentUser.getId().toString());
     }
 

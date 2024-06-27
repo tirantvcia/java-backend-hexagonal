@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class UserRegistrationController {
         this.service = service;
     }
 
-
+    @Transactional
     public ResponseEntity<Map<String, Object>> register(UserRegistrationRequest userRegistrationDto) {
 
         try {
@@ -65,7 +66,7 @@ public class UserRegistrationController {
         return value == null || value.trim().isEmpty();
     }
 
-
+    @Transactional
     public ResponseEntity<Map<String, Object>> changePassword(UserPasswordChangeRequest userPasswordChangeRequest) {
         try {
             UserPasswordChangeResponse userPasswordChangeResponse = service.changePassword(userPasswordChangeRequest);

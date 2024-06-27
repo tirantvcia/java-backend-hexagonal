@@ -5,6 +5,8 @@ import com.savily.hexagonal.backend.testing.domain.repositories.UserRepository;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
 import com.savily.hexagonal.backend.testing.infrastructure.mappers.UserMapper;
+import org.springframework.stereotype.Component;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,11 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UserJpaRepository implements UserRepository {
+@Component("userJpaRepository")
 
+public class UserJpaRepository implements UserRepository {
+    @PersistenceContext
     private EntityManager entityManager;
 
-    @PersistenceContext
+
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -32,6 +36,19 @@ public class UserJpaRepository implements UserRepository {
         UserEntity userSaved = toEntity(user);
         entityManager.persist(userSaved);
         return mapper.toDomain(userSaved);
+    }
+
+    @Override
+    public boolean update(User currentUser) {
+        try {
+            Id id = currentUser.getId();
+            UserEntity userFound = entityManager.find(UserEntity.class, id.toString());
+            userFound.setPassword(currentUser.getPassword().toString());
+            entityManager.persist(userFound);
+            return true;
+        } catch (NoResultException nre) {
+            return false;
+        }
     }
 
     private UserEntity toEntity(User user) {
@@ -80,5 +97,14 @@ public class UserJpaRepository implements UserRepository {
         entityManager.remove(mapper.toEntity(user));
         return true;
     }
+
+    @Override
+    public void deleteAll() {
+
+        entityManager.createQuery("DELETE FROM UserEntity").executeUpdate();
+
+    }
+
+
 
 }

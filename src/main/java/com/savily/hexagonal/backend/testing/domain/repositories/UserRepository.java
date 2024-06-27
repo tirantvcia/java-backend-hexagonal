@@ -15,4 +15,6 @@ public interface UserRepository {
     boolean remove(User user);
 
     void deleteAll();
+
+    boolean update(User currentUser);
 }

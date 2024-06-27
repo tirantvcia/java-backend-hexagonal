@@ -3,10 +3,8 @@ package com.savily.hexagonal.backend.testing.domain.repositories;
 import com.savily.hexagonal.backend.testing.domain.entities.User;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Email;
 import com.savily.hexagonal.backend.testing.domain.valueObjects.Id;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -70,5 +68,16 @@ public class InMemoryUserRepository implements UserRepository{
     @Override
     public void deleteAll() {
         this.inMemoryRepoUsers.clear();
+    }
+
+    @Override
+    public boolean update(User user) {
+        int elementPosition = getPositionByEmail(user);
+        final int notFoundIndex = -1;
+        if(elementPosition != notFoundIndex) {
+            updateUser(user, elementPosition);
+            return true;
+        }
+        return false;
     }
 }
